@@ -1,0 +1,13 @@
+-JavaScript let: Declaring Block-Scoped Variables
+-differnce between let var and const
+-JavaScript let and global object
+-JavaScript let and callback function in a for loop
+-Temporal death zone (TDZ)
+-JavaScript const and Arrays
+-const in a for loop
+-JavaScript proxy
+-proxy traps
+-JavaScript reflection
+-Reflect API
+-JavaScript execution context
+-JavaScript call stack
