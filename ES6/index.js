@@ -96,4 +96,4 @@ const targetObject = {
 
   let proxy = new Proxy(target, handler);
 
-  
+ 

@@ -1,0 +1,53 @@
+body, h2, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h2 {
+    color: #007BFF;
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+}
+
+li:before {
+    content: '\2022'; 
+    color: #007BFF; 
+    font-size: 1.2em;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 10px;
+}
+
+h2 {
+    font-size: 1.8em;
+}
+
+ul {
+    font-size: 1.2em;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+}
