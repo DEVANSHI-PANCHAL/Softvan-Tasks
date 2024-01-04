@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake-Water-Gun Game</title>
+</head>
+<body>
+    <script>
+        function getRandomChoice() {
+            const choices = ['snake', 'water', 'gun'];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        function playGame(userChoice) {
+            const computerChoice = getRandomChoice();
+
+            document.write(`You chose: ${userChoice}`);
+            document.write(`Computer chose: ${computerChoice}`);
+
+            if (userChoice === computerChoice) {
+                document.write("It's a tie!");
+            } else if (
+                (userChoice === 'snake' && computerChoice === 'water') ||
+                (userChoice === 'water' && computerChoice === 'gun') ||
+                (userChoice === 'gun' && computerChoice === 'snake')
+            ) {
+                document.write('You win!');
+            } else {
+                document.write('You lose!');
+            }
+        }
+
+        const userChoice = prompt("Choose: snake, water, or gun").toLowerCase();
+        if (['snake', 'water', 'gun'].includes(userChoice)) {
+            playGame(userChoice);
+        } else {
+            document.write('Invalid choice. Please choose snake, water, or gun.');
+        }
+    </script>
+</body>
+</html>

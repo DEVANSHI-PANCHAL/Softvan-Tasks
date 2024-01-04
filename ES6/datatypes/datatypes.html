@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datatypes</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h2>Datatypes</h2>
+    <ul>
+        <li>There are 7 primitive datatypes in js</li>
+        <li>Null</li>
+        <li>Number</li>
+        <li>Symbol</li>
+        <li>String</li>
+        <li>Boolean</li>
+        <li>Big int</li>
+        <li>Undefined</li>
+    </ul>
+    
+</body>
+<script>
+    // / nn bb ss u - Primitives in Js
+let a = null;
+let b = 345;
+let c = true; // can also be false
+let d = BigInt("567") + BigInt("3")
+let e = "Devanshi"
+let f = Symbol("I am a nice symbol")
+let g
+console.log(a, b, c , d, e, f, g)
+console.log(typeof c)
+
+// Non Primitive Data Type - Objects in Js
+const item = {
+  "Devanshi": true,
+  "debu": false,
+  "panchal": 67,
+  "Rohan": undefined
+}
+console.log(item["debu"])
+
+//practice sets
+let str = "devanshi"
+let h = str +1
+console.log(typeof(h))
+
+const obj = {
+    name: "debu",
+    age:23
+}
+
+obj.prop = "new prop"
+console.log(obj)
+
+const dict = {
+    word:"some define",
+    word1:"define 2",
+    word2:"define 3"
+}
+console.log(dict.word1)
+</script>
+</html>

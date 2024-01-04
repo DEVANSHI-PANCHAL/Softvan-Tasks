@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closures</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h2>Closures</h2>
+    <ul>
+        <li>A closure is a combination of a function bundled together with refrences to its surrounding state.</li>
+        <li>In other words closures give access to outer functions scope</li>
+    </ul>
+
+    <script>
+        let message = "global"
+        function helloOne() {
+            let message = "Message"
+            console.log("Hello one"+message)
+        }
+        console.log(message)
+    </script>
+</body>
+</html>

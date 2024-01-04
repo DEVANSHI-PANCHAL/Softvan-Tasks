@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the number</title>
+</head>
+<body>
+    <ul>
+        <li>enter a number between 1 to 100</li>
+    </ul>
+    
+</body>
+
+<script>
+ const randomNumber = Math.floor(Math.random() * 100);
+console.log(randomNumber);
+
+let userInput;
+
+do {
+    userInput = prompt("Enter the number");
+    userInput = parseInt(userInput); // Convert userInput to a number
+
+    if (isNaN(userInput)) {
+        console.log("Please enter a valid number.");
+    } else {
+        if (userInput > randomNumber) {
+            console.log("The entered number is greater");
+        } else if (userInput < randomNumber) {
+            console.log("The entered number is smaller");
+        } else {
+            document.write("You won");
+        }
+    }
+} while (userInput !== randomNumber);
+
+
+</script>
+</html>

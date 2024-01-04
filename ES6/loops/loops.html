@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loops</title>
+</head>
+<body>
+    Types of loop:
+    - for Loop
+    - while Loop
+    - do while Loop
+    - for of 
+    -for in
+    - for each loop : calls a function once for each array element
+    const a = [1,2,3]
+    a.forEach((value, index, array)=>{
+        //function logic
+    })
+    - map: creates a new array by performing some operation on each array element
+</body>
+<script>
+    obj = {
+        devanshi: 99,
+        panchal: 74,
+        human: 45
+    }
+    // for(i in obj){
+    //     console.log(i)
+    // }
+
+    // for (i=0;i<Object.keys(obj).length;i++){
+    //     console.log(Object.keys(obj)[i])
+    //     console.log(obj[Object.keys(obj)[i]])
+    // }
+
+    const keys = Object.keys(obj);
+
+for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = obj[key];
+    console.log(`${key}: ${value}`);
+}
+
+let cn = 4
+let num = prompt("enter the number")
+while(num!=cn){
+    console.log("not correct number")
+}
+console.log("correct no")
+
+function mean (a,b,c,d) {
+    let ans = (a+b+c+d)/4
+    return ans
+}
+
+
+</script>
+</html>

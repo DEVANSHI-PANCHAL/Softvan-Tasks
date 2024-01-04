@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables</title>
+</head>
+<body>
+    <h2>Variables</h2>
+    <ul>
+        <li>variables are containers used for storing data</li>
+        <li>js is dynamically typed</li>
+        <li>js allows to change the value of variable at run time</li>
+        <li>letters digits and numbers are allowed in declaring variables but not at the beginning</li>
+        <li> reserved keywords are not allowed for declaring variables</li>
+        <li>variables are case sensitive</li>
+    </ul>
+
+    <h2>diff btw let and var and const</h2>
+    <ol>
+        <li>var is globally scoped while let and const are block scoped</li>
+        <li>var can be updated and redeclared within its scope</li>
+        <li>
+            let can be updated but not re declared
+        </li>
+        <li>const cannot be updated nor redeclared</li>
+        <li>var variables are initialised with undefined whereas let and const are not</li>
+        <li>const must be initialised during declaration unlike let and var</li>
+    </ol>
+
+    
+</body>
+<script>
+    var a= "1"
+    var b = "two"
+    var c = 3
+    var d = null
+    var e = undefined
+    {
+        let b = "this"
+        console.log(b)
+    }
+    console.log(b)
+</script>
+</html>

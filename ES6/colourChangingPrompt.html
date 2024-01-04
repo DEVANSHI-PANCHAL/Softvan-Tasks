@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color changing</title>
+</head>
+<body>
+    <script>
+        // Retrieve the last saved color from localStorage
+        let storedColor = localStorage.getItem('backgroundColor');
+        
+        // Set the initial background color or the previously stored color
+        document.body.style.background = storedColor || 'white';
+    
+        let flag = true;
+    
+        while (flag) {
+            let userInput = prompt("Enter the color (or type 'stop' to end)");
+    
+            if (userInput.toLowerCase() === 'stop') {
+                flag = false;
+            } else {
+                document.body.style.background = userInput;
+    
+                // Save the entered color to localStorage
+                localStorage.setItem('backgroundColor', userInput);
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>

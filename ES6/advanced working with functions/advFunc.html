@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>advanced functions</title>
+</head>
+<body>
+    <script>
+        //normal technique
+        function pow(x,n){
+
+            let result = 1;
+            for(let i =0;i<n;i++){
+                result *= x
+            }
+            return result;
+
+        }
+        alert(pow(2,3))
+
+        //using recursion
+        function pow1(x,n) {
+            if(x==1) {
+                return 1
+            } else {
+                return x* pow1(x, n-1)
+            }
+        }
+        //Write a function sumTo(n) that calculates the sum of numbers 1 + 2 + ... + n.
+
+        function sumTo (n) {
+            let total = 0;
+            for (let i= 0; i<=n;i++){
+                total +=i;
+            }
+            return total;
+        }
+        alert (sumTo(100))
+
+        //using recursion
+        function summ(n) {
+            let total = 0
+            if(n==1) {
+                return 1
+            }
+            else {
+                return n +summ(n-1)
+            }
+        }
+        alert(summ(100))
+        //using formula
+        function summm(n) {
+            return n*(n+1)/2
+        }
+        alert(summ(100))
+
+        //factorial of a number using recursion
+        function fact(n) {
+            return n ? n*fact(n-1) : 1
+        }
+        alert(fact(3))
+
+        //fibbonacci numbers
+        function fib(no){
+            let a= 1;
+            let b =1;
+            for (let i=3;i<=no; i++) {
+                let c = a+b;
+                a=b;
+                b=c;
+            }
+            return b;
+        }
+        alert(fib(77))
+    </script>
+
+
+    <h2>Advanced working with functions</h2>
+    <ol>
+        <li>recursion</li>
+    </ol>
+
+</body>
+</html>

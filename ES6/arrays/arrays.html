@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays</title>
+</head>
+<body>
+    <ul>    array methods:
+        <li>push: adds element at the last index</li>
+        <li>pop: removed element at the last index</li>
+        <li>shift: removes the first element and returns item</li>
+        <li>unshift: adds element to the beginning and returs new array length</li>
+        <li>delete: array elements can be deleted using delete operator</li>
+        <li>concate: used to join two arrays</li>
+        <li>sort: arranges the elements in increasing(alphabetically) order</li>
+        <li>Splice: used to add new items in an array, returns deleted items and modifies an array</li>
+        <li>slice: slices out a peice from an array , it creates a new array</li>
+        <li>reduce: reduces an array to single value</li>
+    </ul>
+
+    <script>
+        let arr = [1,2,3,4,5]
+        for(i =0;i<=arr.length-1;i++){
+            console.log(arr[i])
+        }
+        // Array Methods
+let num = [1, 2, 3, 34, 4]
+let b = num.toString() // b is now a string 
+console.log(b, typeof b)
+let c = num.join(" and ")
+console.log(c, typeof c)
+// let r = num.pop() // pop returns the popped element
+// console.log(num, r)
+// let r = num.push(56) // push returns the new array length
+// console.log(num, r)
+// let r = num.shift()
+// console.log(r, num) // Removes an element from the start of the array
+
+let r = num.unshift(78)
+console.log(r, num)
+console.log(r)
+
+let compare = (a,b) => {
+    return a-b
+let num = [1,55,8,9,66,74,5,3]
+
+num.sort(compare)
+num.splice(2,3,21,22,23)
+//num.splice(index,how many nums to replace, new numbers)
+console.log(num)
+}
+
+//splice and slice
+
+
+//map filter reduce
+arr = [12,16,14,78]
+arr.map((value)=>{
+    console.log(value+1)
+})
+
+arr1= [0,1,2,3,4]
+let a1 = arr1.filter((a)=>{
+    return a<2
+})
+console.log(a1)
+
+arr2 = [1,2,3,5,6,7,8,9]
+let a3 = arr2.reduce((value1, value2)=> {
+    return value1 + value2
+})
+//practice sets
+
+//create an array of numbers and add numbers to the array
+
+let userArr = [];
+let userInput;
+
+while (userInput !== '0') {
+    userInput = prompt("Enter a number (enter '0' to stop)");
+
+    // Check if the user wants to exit
+    if (userInput === '0') {
+        break;
+    }
+
+    userArr.push(userInput);
+}
+
+console.log(userArr);
+
+//filter numbers divisible by 2
+
+userArr.filter((value)=>{
+   
+        return value %2 == 0
+})
+
+let aaa= userArr.map((value)=> {
+     return value *2 
+})
+console.log(aaa)
+
+// factorial of a given number using reduce
+ userArr.reduce((value1, value2)=> {
+    return value*(value2)
+ })
+
+
+    </script>
+</body>
+</html>
