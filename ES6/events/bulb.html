@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Bulb</title>
+    <style>
+        .bulb {
+            text-align: center;
+        }
+
+        img {
+            width: 900px;
+            height: auto;
+            display: none; 
+        }
+
+        img.active {
+            display: block; 
+        }
+    </style>
+</head>
+<body>
+    <div class="bulb" onclick="toggleBulb()">
+        <img id="off" class="active" src="https://media.istockphoto.com/id/618935958/photo/lamp-light-bulb-3d-illustration.jpg?s=612x612&w=0&k=20&c=ofn6LnYjLEYlfCAYshtFXS3ahqFjmlegPAlGUzJ4gc0=" alt="bulb off">
+        <img id="on" src="https://parspng.com/wp-content/uploads/2022/11/lamppng.parspng.com-2.png" alt="bulb-on">
+    </div>
+
+    <script>
+        function toggleBulb() {
+            var bulbOff = document.getElementById("off");
+            var bulbOn = document.getElementById("on");
+            
+            bulbOff.classList.toggle('active');
+            bulbOn.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

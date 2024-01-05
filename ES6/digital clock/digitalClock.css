@@ -1,0 +1,14 @@
+body{
+    background-color:rgb(196, 186, 237) ;
+    font-family: 'Poppins', sans-serif;
+    box-sizing:border-box;   
+    display: flex;
+    align-items: center; 
+    height: 100vh;
+    justify-content: center;
+}
+
+.clock {
+    display:flex ;
+    font-size: 100px;
+}

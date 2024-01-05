@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Navbar</title>
+    <style>
+        /* Style for the navigation bar */
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        /* Style for the navigation items */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin-right: 15px;
+        }
+
+        /* Style for the links inside the navigation items */
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Change the color of links when hovered */
+        nav a:hover {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <script>
+     document.addEventListener("DOMContentLoaded", function() {
+            // Access the first anchor element inside the navigation bar and change its color
+            document.querySelector("nav a").style.color = "red";
+        });    </script>
+
+</body>
+</html>
