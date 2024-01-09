@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive navbar</title>
+  <link rel="stylesheet" href="./responsiveNavBar.css" />
+</head>
+  
+<body>
+  <nav class="nav">
+    <div class="nav__logo">Logo</div>
+    <a href="#" class="nav__hamburger">
+      <span class="nav__hamburger__line"></span>
+      <span class="nav__hamburger__line"></span>
+      <span class="nav__hamburger__line"></span>
+    </a>
+    <div class="nav__menu">
+      <ul>
+        <li class="nav__menu__link"><a href="#home">Home</a></li>
+        <li class="nav__menu__link"><a href="#about">About</a></li>
+        <li class="nav__menu__link"><a href="#contact">Contact</a></li>
+        <li class="nav__menu__link"><a href="#home">Home</a></li>
+      </ul>
+    </div>
+
+    <div class="bg"></div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".nav__hamburger");
+      const linksContainer = document.querySelector(".nav__menu");
+  
+      hamburger.addEventListener("click", () => {
+        linksContainer.classList.toggle("active");
+        hamburger.classList.toggle("active");
+  
+        if (!linksContainer.classList.contains("active")) {
+          closeMenu();
+        }
+      });
+  
+      window.addEventListener("resize", () => {
+        if (window.innerWidth <= 550) {
+          closeMenu();
+        }
+      });
+  
+      function closeMenu() {
+        linksContainer.classList.remove("active");
+        hamburger.classList.remove("active");
+      }
+  
+      linksContainer.querySelectorAll('.nav__menu__link').forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+    });
+  </script>
+  
+  
+  
+</body>
+</html>
