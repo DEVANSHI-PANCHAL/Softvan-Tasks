@@ -26,8 +26,8 @@ function App() {
         </section>
       </div>
       <div className="input-submit">
-      <button class="submit-btn" id="submit"></button>
-            <label for="submit">Sign In</label>
+      <button className="submit-btn" id="submit"></button>
+            <label htmlFor="submit">Sign In</label>
       </div>
       <div className="sign-up-link">
         <p>Don't have an account yet? <Link to ="#">Sign Up</Link></p>
