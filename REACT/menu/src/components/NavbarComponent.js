@@ -46,9 +46,9 @@ const NavbarComponent = () => {
           <Navbar.Brand as={Link} to="/" style={{ color: "white", textDecoration: "none" }}>
             Food Menu
           </Navbar.Brand>
-          <div style={basketIconStyle}>
+          <Link  style={basketIconStyle} to="/cart">
             <FaShoppingBasket />
-          </div>
+          </Link>
         </Container>
       </Navbar>
       <Nav variant="tabs" defaultActiveKey="/breakfast" style={navTabsStyle}>
