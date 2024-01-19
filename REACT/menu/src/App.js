@@ -96,7 +96,7 @@
 
     return (
       <Router>
-      <div className="App">
+      {/* <div className="App">
         {isLoggedIn && <NavbarComponent onLogout={handleLogout} />}
         <Routes>
           <Route path="/breakfast" element={<MenuCard menuItems={menuData.breakfast} onAddToCart={handleAddToCart} />} />
@@ -112,6 +112,19 @@
             exact={true}
           />
           <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </div> */}
+      <div className="App">
+       <NavbarComponent/> 
+        <Routes>
+          <Route path="/breakfast" element={<MenuCard menuItems={menuData.breakfast} onAddToCart={handleAddToCart} />} />
+          <Route path="/lunch" element={<MenuCard menuItems={menuData.lunch} onAddToCart={handleAddToCart} />} />
+          <Route path="/dinner" element={<MenuCard menuItems={menuData.dinner} onAddToCart={handleAddToCart} />} />
+          <Route
+            path="/cart"
+            element={<ShoppingCart cartItems={cartItems} onUpdateQuantity={onUpdateQuantity} onDeleteItem={onDeleteItem} onRefresh={onRefresh} /> }
+          />
+        
         </Routes>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
