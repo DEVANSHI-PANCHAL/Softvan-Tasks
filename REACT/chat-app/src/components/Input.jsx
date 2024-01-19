@@ -1,4 +1,4 @@
-import img from '../img/cam'
+import img from '../img/cam.png'
 const Input = () => {
   return (
     <div className='input'>

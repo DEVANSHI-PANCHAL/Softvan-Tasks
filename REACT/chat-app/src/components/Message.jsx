@@ -1,8 +1,8 @@
 
 const Message = () => {
   return (
-    <div className="message">
-      <div className="messageInfo">
+    <div className="message owner">
+      <div className="messageInfo ">
         <img src="" alt="" />
         <span>Just Now</span>
       </div>
