@@ -6,18 +6,30 @@ import Greetings from './Components/Greetings';
 import classCounter from './Hooks/classComp';
 import UseState from './Hooks/UseState';
 import ToDoList from './miniProjects/ToDoList';
+import BasicForm from './forms/BasicForm';
+import UseEffectComp from './Hooks/UseEffectComp.jsx';
+import WindowSize from './miniProjects/WindowSize.jsx';
+import ApiCall from './miniProjects/ApiCall.jsx';
+import UseRefComp from './Hooks/UseRefComp.jsx';
+import UseReducerComp from './Hooks/UseReducerComp.jsx';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-       {/* <Counter/>*/}
+       {/* <Counter/> */}
 
         {/* <Greetings/> */}
         {/* <classCounter/> */}
         {/* <Props/> */}
         {/* <UseState/> */}
-        <ToDoList/>
+        {/* <ToDoList/> */}
+        {/* <BasicForm/> */}
+      {/* <UseEffectComp/> */}
+      {/* <WindowSize/> */}
+      {/* <ApiCall/> */}
+      {/* <UseRefComp/> */}
+      <UseReducerComp/>
       </div>
     );
   }

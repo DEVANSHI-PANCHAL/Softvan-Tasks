@@ -5,7 +5,7 @@ const ToDoList = () => {
      const handleInput = (e) =>{
         const value = e.target.value;
         setTodoitems(value)
-        setTodoitems([value])
+        setTodoitems([...value])
      }
      const handleSubmit = (e) => {
         e.preventDefault();
@@ -14,7 +14,7 @@ const ToDoList = () => {
   return (
     <div>
       <h1>To Do List</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input type='text' placeholder="Enter items" onChange={handleInput}></input>
         <button type="submit">Add</button>
       </form>
