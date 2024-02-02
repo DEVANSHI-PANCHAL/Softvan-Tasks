@@ -9,7 +9,6 @@ const ToDoList = () => {
      }
      const handleSubmit = (e) => {
         e.preventDefault();
-        // You can add more logic here if needed
       };
   return (
     <div>

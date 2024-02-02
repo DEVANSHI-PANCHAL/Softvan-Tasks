@@ -1,0 +1,11 @@
+.actions-column {
+  width: 200px; 
+}
+.table-heading {
+  background-color: #343a40; /* Dark background color */
+  color: white; /* White font color */
+}
+
+.pagination {
+  margin-top: 20px; /* Add some space between table and pagination */
+}
