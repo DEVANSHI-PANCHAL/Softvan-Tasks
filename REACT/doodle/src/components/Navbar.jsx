@@ -21,7 +21,7 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
           {darkTheme ? "Light" : "dark"}
         </button>
       </div>
-      <SearchComp /> {/* Use the Search component */}
+      <SearchComp /> 
     </div>
   );
 };

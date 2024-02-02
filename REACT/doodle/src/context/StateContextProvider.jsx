@@ -1,3 +1,4 @@
+// StateContextProvider.js
 import React, { createContext, useContext, useState } from 'react';
 
 const StateContext = createContext();
@@ -16,14 +17,15 @@ export const StateContextProvider = ({ children }) => {
       headers: {
         'x-rapidapi-host': 'google-search3.p.rapidapi.com',
         'x-rapidapi-key': 'a836ae2e1mshe707891fa36ed93p174abbjsne049ebf9e824',
+        'content-type': 'application/json', // Make sure to include this header
       },
-      body: {
-        text: `${searchTerm}`,
+      body: JSON.stringify({ // Body should be JSON stringified
+        text: searchTerm,
         safesearch: 'off',
         timelimit: '',
         region: 'wt-wt',
         max_results: 20
-      }
+      })
     });
 
     const data = await res.json();
