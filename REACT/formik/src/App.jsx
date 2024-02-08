@@ -5,6 +5,7 @@ import './App.css'
 import SimpleForm from './components/SimpleForm'
 import SimpleFormWithYup from './components/SimpleFormWithYup'
 import RefactoredForm from './components/RefactoredForm'
+import FormikComponent from './components/FormikComponent'
 
 function App() {
 
@@ -13,7 +14,8 @@ function App() {
    
    {/* <SimpleForm/> */}
    {/* <SimpleFormWithYup/> */}
-   <RefactoredForm/>
+   {/* <RefactoredForm/> */}
+   <FormikComponent/>
     </div>
   )
 }
