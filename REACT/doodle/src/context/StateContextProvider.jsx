@@ -17,9 +17,9 @@ export const StateContextProvider = ({ children }) => {
       headers: {
         'x-rapidapi-host': 'google-search3.p.rapidapi.com',
         'x-rapidapi-key': 'a836ae2e1mshe707891fa36ed93p174abbjsne049ebf9e824',
-        'content-type': 'application/json', // Make sure to include this header
+        'content-type': 'application/json', 
       },
-      body: JSON.stringify({ // Body should be JSON stringified
+      body: JSON.stringify({
         text: searchTerm,
         safesearch: 'off',
         timelimit: '',

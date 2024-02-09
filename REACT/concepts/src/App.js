@@ -12,6 +12,7 @@ import WindowSize from './miniProjects/WindowSize.jsx';
 import ApiCall from './miniProjects/ApiCall.jsx';
 import UseRefComp from './Hooks/UseRefComp.jsx';
 import UseReducerComp from './Hooks/UseReducerComp.jsx';
+import Optimization from './Hooks/Optimization.jsx';
 
 class App extends Component {
   render() {
@@ -29,7 +30,9 @@ class App extends Component {
       {/* <WindowSize/> */}
       {/* <ApiCall/> */}
       {/* <UseRefComp/> */}
-      <UseReducerComp/>
+      {/* <UseReducerComp/> */}
+
+      <Optimization/>
       </div>
     );
   }

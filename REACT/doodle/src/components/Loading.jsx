@@ -1,5 +1,5 @@
 import React from 'react';
-import { Puff } from 'react-loader-spinner'; // Assuming Loader is the named export
+import { Puff } from 'react-loader-spinner'; 
 
 const Loading = () => {
   return (

@@ -22,3 +22,28 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.optimization-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+h2 {
+  font-size: 24px;
+  color: #666;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #777;
+}
