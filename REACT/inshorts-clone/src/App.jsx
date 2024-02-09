@@ -4,6 +4,7 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 import NavInshorts from "./components/NavInshorts";
 import NewsContent from "./components/NewsContent/NewsContent";
+import BackToTopButton from "./components/BackToTopButton";
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY;
 console.log(apiKey)
@@ -42,6 +43,7 @@ function App() {
           setLoadMore={setLoadMore}
         />
       )}
+        <BackToTopButton />
       <Footer />
     </div>
   );
