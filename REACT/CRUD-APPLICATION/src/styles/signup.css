@@ -1,0 +1,103 @@
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.signup-page h1 {
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px #ccc;
+}
+
+.signup-page p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.signup-page form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.signup-page label {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.signup-page input[type="text"],
+.signup-page input[type="email"],
+.signup-page input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.signup-page input[type="text"]:focus,
+.signup-page input[type="email"]:focus,
+.signup-page input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0px 0px 2px 1px #333;
+}
+
+.signup-page button {
+  font-size: 1.2rem;
+  padding: 0.5rem 2rem;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.signup-page button:hover {
+  background-color: #3e8e41;
+}
+
+.signup-page .errmsg {
+  font-size: 1.2rem;
+  color: #ff0000;
+  margin-top: 1rem;
+  width: 100%;
+  text-align: left;
+}
+
+.signup-page a {
+  font-size: 1.2rem;
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.signup-page a:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading .react-loader-spinner {
+  margin: 0 auto;
+}

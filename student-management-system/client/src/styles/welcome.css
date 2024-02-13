@@ -1,0 +1,98 @@
+:root {
+	--background: #f3a683;
+	--base: #303952;
+	--accent: #786fa6;
+	--shadow: #e77f67;
+}
+
+html {
+	background: var(--background);
+	display: grid;
+	height: 100%;
+	place-items: center;
+}
+
+.cool {
+	font: bold 3rem/1.2 sans-serif;
+	max-width: 20rem;
+}
+
+.cool span {
+	color: var(--shadow);
+	display: inline-block;
+	position: relative;
+}
+
+.cool span::before,
+.cool span::after {
+	content: attr(data-text);
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	speak: none;
+}
+
+.cool span::before {
+	animation: max-height .4s cubic-bezier(0.61, 1, 0.88, 1) 1 normal both;
+	color: var(--accent);
+}
+
+.cool span::after {
+	animation: max-width .7s cubic-bezier(0.61, 1, 0.88, 1) 1 normal both;
+	color: var(--base);
+}
+
+@media (prefers-reduced-motion) {
+	.cool span {
+		color: var(--base);
+	}
+
+	.cool span::before,
+	.cool span::after {
+		animation: none;
+		content: "";
+	}
+}
+
+@keyframes max-width {
+	from {
+		max-width: 0;
+	}
+	to {
+		max-width: 100%;
+	}
+}
+
+@keyframes max-height {
+	from {
+		max-height: 0;
+	}
+	to {
+		max-height: 100%;
+	}
+}
+
+.arrow-link {
+  display: inline-block;
+}
+
+.arrow-icon {
+  color: rgb(255, 0, 166); /* Set the color to cyan */
+  animation: blink-animation 1s infinite; 
+  transform: scale(2.5);/* Apply blinking animation */
+}
+
+.arrow-icon-wrapper {
+  font-size: 2rem; /* Set the font size to make the arrow larger */
+}
+@keyframes blink-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
