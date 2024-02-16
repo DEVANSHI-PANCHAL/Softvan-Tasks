@@ -27,7 +27,7 @@ const SignIn = () => {
     try {
       dispatch(signInStart());
   
-      const res = await axios.post('http://192.168.10.60:8080/login', formData);
+      const res = await axios.post('/login', formData);
       console.log(res)
       // console.log(res.status)
       console.log(res.data)

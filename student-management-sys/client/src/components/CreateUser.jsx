@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Alert, Button, Label, Modal, Spinner, TextInput } from "flowbite-react";
-import { useState } from "react";
 import axios from "axios";
+import { useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const CreateUser = () => {
+const CreateUser = ({ fetchUsers }) => {
     const [openModal, setOpenModal] = useState(false);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-  
-  
+    const { currentUser } = useSelector((state) => state.user);
+    const token = currentUser?.data?.message;
+
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
     };
-  
+
     const handleSubmit = async(e) => {
       e.preventDefault();
       if (!formData.username || !formData.password) {
@@ -23,8 +26,6 @@ const CreateUser = () => {
         setLoading(true);
         setErrorMessage(null);
         
-        const token = localStorage.getItem('token');
-  
         const config = {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -32,10 +33,13 @@ const CreateUser = () => {
           }
         };
   
-        const res = await axios.post('http://192.168.10.60:8080/register', formData, config);
+        const res = await axios.post('http://192.168.10.60:9090/register', formData, config);
         
         console.log(res.data);
-  
+        setFormData({}); // Clear form data after successful submission
+        toast.success('User created successfully'); // Show toast message
+        setOpenModal(false); // Close the modal upon successful creation
+        fetchUsers(); 
       } catch (error) {
         console.log(error)
         setErrorMessage(error.message);
@@ -43,6 +47,7 @@ const CreateUser = () => {
         setLoading(false);
       }
     };
+  
   return (
     <div>
         <Button onClick={() => setOpenModal(true)}>Create User</Button>
@@ -79,15 +84,16 @@ const CreateUser = () => {
             )}
           </Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>Cancel</Button>
-          {errorMessage && (
-            <Alert className='mt-5' color='failure'>
-              {errorMessage}
-            </Alert>
-          )}
         </Modal.Footer>
       </Modal>
+      {errorMessage && (
+        <Alert className='mt-5' color='failure'>
+          {errorMessage}
+        </Alert>
+      )}
+      <ToastContainer /> {/* Toast container */}
     </div>
   )
 }
 
-export default CreateUser
+export default CreateUser;

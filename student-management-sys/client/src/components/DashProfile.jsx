@@ -1,132 +1,132 @@
-import { Alert, Button, Modal, ModalBody, TextInput } from 'flowbite-react';
+import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import { useSelector } from 'react-redux';
 import {
-    updateStart,
-    updateSuccess,
-    updateFailure,
-    deleteUserStart,
-    deleteUserSuccess,
-    deleteUserFailure,
-    signoutSuccess,
-  } from '../redux/user/userSlice';
-  import { useDispatch } from 'react-redux'
-import { useState } from 'react';
+  updateStart,
+  updateSuccess,
+  updateFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  signoutSuccess,
+} from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
-
-
 export default function DashProfile() {
-    const { currentUser, error } = useSelector((state) => state.user);
-    const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
-    const [updateUserError, setUpdateUserError] = useState(null);
-    const [formData, setFormData] = useState({});
-    const [showModal, setShowModal] = useState(false);
+  const { currentUser, error } = useSelector((state) => state.user);
+  const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
+  const [updateUserError, setUpdateUserError] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.id]: e.target.value });
-      };
-    
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        setUpdateUserError(null);
-        setUpdateUserSuccess(null);
-        if (Object.keys(formData).length === 0) {
-          setUpdateUserError('No changes made');
-          return;
-        }
-      
-        try {
-          dispatch(updateStart());
-          const res = await axios.put(`/updateUser/${currentUser._id}`, formData, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-      
-          if (!res.data.success) {
-            dispatch(updateFailure(res.data.message));
-            setUpdateUserError(res.data.message);
-          } else {
-            dispatch(updateSuccess(res.data));
-            setUpdateUserSuccess("User's profile updated successfully");
-          }
-        } catch (error) {
-          dispatch(updateFailure(error.message));
-          setUpdateUserError(error.message);
-        }
-      };
-      const handleDeleteUser = async () => {
-        setShowModal(false);
-        try {
-          dispatch(deleteUserStart());
-          const res = await axios.delete(`/deleteUser/${currentUser._id}`);
-          if (!res.data.success) {
-            dispatch(deleteUserFailure(res.data.message));
-          } else {
-            dispatch(deleteUserSuccess(res.data));
-          }
-        } catch (error) {
-          dispatch(deleteUserFailure(error.message));
-        }
-      };
+  useEffect(() => {
+    // Initialize formData with user details when component mounts
+    if (currentUser) {
+        console.log("currentUser", currentUser.data.user
+        )
+      setFormData({
+        username: currentUser.data.user.username,
+        password: '', // Set an empty password field initially
+      });
+    }
+  }, [currentUser]);
 
-    //   const handleSignout = async () => {
-    //     try {
-    //       const res = await fetch('/api/user/signout', {
-    //         method: 'POST',
-    //       });
-    //       const data = await res.json();
-    //       if (!res.ok) {
-    //         console.log(data.message);
-    //       } else {
-    //         dispatch(signoutSuccess());
-    //       }
-    //     } catch (error) {
-    //       console.log(error.message);
-    //     }
-    //   };
-    const handleSignout = () => {
-        dispatch(signoutSuccess());
-      };
-    return (
-        <div className='max-w-lg mx-auto p-3 w-full'>
-        <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
-        <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-          <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'>
-            <img
-              src={currentUser.profilePicture}
-              alt='user'
-              className='rounded-full w-full h-full object-cover border-8 border-[lightgray]'
-            />
-          </div>
-          <TextInput
-            type='text'
-            id='username'
-            placeholder='username'
-            defaultValue={currentUser.username}
-            onChange={handleChange}
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUpdateUserError(null);
+    setUpdateUserSuccess(null);
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError('No changes made');
+      return;
+    }
+
+    try {
+      dispatch(updateStart());
+      const _id = currentUser.data.user.id
+      const res = await axios.put(`/updateUser/${_id}`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.data.success) {
+        dispatch(updateFailure(res.data.message));
+        setUpdateUserError(res.data.message);
+      } else {
+        dispatch(updateSuccess(res.data));
+        setUpdateUserSuccess("User's profile updated successfully");
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await axios.delete(`/deleteUser/${currentUser._id}`);
+      if (!res.data.success) {
+        dispatch(deleteUserFailure(res.data.message));
+      } else {
+        dispatch(deleteUserSuccess(res.data));
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  const handleSignout = () => {
+    dispatch(signoutSuccess());
+  };
+
+  return (
+    <div className='max-w-lg mx-auto p-3 w-full'>
+      <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
+      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+        <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'>
+          <img
+            src={currentUser.profilePicture}
+            alt='user'
+            className='rounded-full w-full h-full object-cover border-8 border-[lightgray]'
           />
-        
-          <TextInput  type='password'
+        </div>
+        <TextInput
+          type='text'
+          id='username'
+          placeholder='username'
+          value={formData.username || ''}
+          onChange={handleChange}
+        />
+        <TextInput
+          type='password'
           id='password'
           placeholder='password'
-          onChange={handleChange} />
-          <Button type='submit' gradientDuoTone='purpleToBlue' outline>
-              Update
-          </Button>
-        </form>
-        <div className="text-red-500 flex justify-between mt-5">
+          value={formData.password || ''}
+          onChange={handleChange}
+        />
+        <Button type='submit' gradientDuoTone='purpleToBlue' outline>
+          Update
+        </Button>
+      </form>
+      <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModal(true)} className='cursor-pointer'>
           Delete Account
         </span>
         <span onClick={handleSignout} className='cursor-pointer'>
           Sign Out
         </span>
-        </div>
-        {updateUserSuccess && (
+      </div>
+      {updateUserSuccess && (
         <Alert color='success' className='mt-5'>
           {updateUserSuccess}
         </Alert>
@@ -136,7 +136,7 @@ export default function DashProfile() {
           {updateUserError}
         </Alert>
       )}
-          {error && (
+      {error && (
         <Alert color='failure' className='mt-5'>
           {error}
         </Alert>
@@ -165,6 +165,6 @@ export default function DashProfile() {
           </div>
         </Modal.Body>
       </Modal>
-      </div>
-    )
-  }
+    </div>
+  );
+}
