@@ -7,6 +7,8 @@ import { Provider} from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import ThemeProvider from './components/ThemeProvider.jsx';
 import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 axios.defaults.baseURL = 'http://192.168.10.60:9090';
 

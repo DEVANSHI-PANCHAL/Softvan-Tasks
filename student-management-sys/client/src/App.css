@@ -1,0 +1,6 @@
+.border-gradient-purple-blue-green {
+    border: 2px solid;
+    border-image: linear-gradient(to right, purple, blue, pink) 1;
+  }
+  
+  

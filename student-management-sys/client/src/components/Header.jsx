@@ -41,14 +41,14 @@ export default function Header() {
           Student Management System
         </span>
       </Link>
-      <form>
+      {/* <form>
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
         />
-      </form>
+      </form> */}
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
         <AiOutlineSearch />
       </Button>
@@ -71,7 +71,7 @@ export default function Header() {
           >
             <Dropdown.Header>
               <span className="block text-sm">
-                @{currentUser.data.user.username}
+                {currentUser.data.user?.username}
               </span>
               {/* <span className='block text-sm font-medium truncate'>{currentUser.email}</span> */}
             </Dropdown.Header>
@@ -90,7 +90,7 @@ export default function Header() {
         )}
         <Navbar.Toggle />
       </div>
-      <Navbar.Collapse>
+      {/* <Navbar.Collapse>
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
@@ -100,7 +100,7 @@ export default function Header() {
         <Navbar.Link active={path === "/projects"} as={"div"}>
           <Link to="/projects">Projects</Link>
         </Navbar.Link>
-      </Navbar.Collapse>
+      </Navbar.Collapse> */}
     </Navbar>
   );
 }

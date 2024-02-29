@@ -1,117 +1,112 @@
-import React from 'react'
-import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from '../redux/user/userSlice';
+import React from "react";
+import { Button, Label, Spinner, TextInput } from "flowbite-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import { loginReq } from "../service/login.api";
 
 const SignIn = () => {
-  const [formData, setFormData] = useState({});
-  const { loading, error: errorMessage } = useSelector((state) => state.user);
-  const dispatch = useDispatch();  
-
+  const theme = useSelector((state) => state.theme.theme);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.username || !formData.password) {
-      return dispatch(signInFailure('Please fill all the fields'));
-    }
-    try {
-      dispatch(signInStart());
-  
-      const res = await axios.post('/login', formData);
-      console.log(res)
-      // console.log(res.status)
-      console.log(res.data)
-      const token = res.data;
-      console.log(token)
-      localStorage.setItem('token', token);
-      // if (res.success === false) {
-      //   return setErrorMessage(res.message);
-      // }
-      // setLoading(false);
-      if (res.status==200) {
-        dispatch(signInSuccess(res));
-        navigate('/dashboard');
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().max(20, "Must be 20 characters or less").required("Username is required"),
+      password: Yup.string().max(20, "Must be 20 characters or less").required("Password is required"),
+    }),
+    onSubmit: async (values, { setSubmitting }, err) => {
+      try {
+        dispatch(signInStart());
+        const res = await loginReq(values);
+        const token = res.data.message;
+        localStorage.setItem("token", token);
+    
+        if (res.status==200) {
+          dispatch(signInSuccess(res));
+          toast.success("Sign in successful!"); 
+          navigate("/dashboard");
+        } else if (res.status === 403) {
+          dispatch(signInFailure(err?.message));
+          toast.error("Sign in failed. Please try again."); 
+        }
+      } catch (error) {
+        dispatch(signInFailure(err?.message));
+        toast.error("Sign in failed. Please try again."); 
       }
-    } catch (error) {
-      // setErrorMessage(error.message);
-      // setLoading(false);
-      dispatch(signInFailure(error.message));
-    }
-  };
+      setSubmitting(false);
+    },
+    
+  });
+
   return (
-    <div className='min-h-screen mt-20'>
-      <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
-        {/* left */}
-        <div className='flex-1'>
-          <div to='/' className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-              Sign In
-            </span>
-          </div>
-          <p className='text-sm mt-5'>
-          </p>
+    <div className={`flex justify-center items-center h-screen ${theme === "light" ? "bg-gray-100" : "bg-slate-900 text-white"}`}>
+      <div className={`bg-white p-8 rounded-lg shadow-md w-full max-w-md border border-gradient-purple-blue-green ${theme === "light" ? "" : "bg-slate-700 text-white"}`}>
+        <div className="text-center mb-8">
+          <h2 className={`font-bold text-4xl ${theme === "light" ? "text-purple-900" : "text-purple-600"}`}>Sign In</h2>
+          <p className={`text-sm mt-2 ${theme === "light" ? "text-gray-600" : ""}`}>Enter your credentials to sign in</p>
         </div>
-        {/* right */}
-        <div className='flex-1'>
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-            <div>
-              <Label value='Your username' />
-              <TextInput
-                type='text'
-                placeholder='Enter your username'
-                id='username'
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <Label value='Your password' />
-              <TextInput
-                type='password'
-                placeholder='**********'
-                id='password'
-                onChange={handleChange}
-              />
-            </div>
-            <Button
-              gradientDuoTone='purpleToPink'
-              type='submit'
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <Spinner size='sm' />
-                  <span className='pl-3'>Loading...</span>
-                </>
-              ) : (
-                'Sign In'
-              )}
-            </Button>
-          </form>
-          <div className='flex gap-2 text-sm mt-5'>
-            <span>Don't have an account?</span>
-            <Link to='/sign-up' className='text-blue-500'>
-              Sign Up
-            </Link>
+        <form className="space-y-4" onSubmit={formik.handleSubmit}>
+          <div>
+            <Label value="Your username" />
+            <TextInput
+              type="text"
+              placeholder="Enter your username"
+              id="username"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+              className={theme === "light" ? "dark-mode-input" : ""}
+            />
+            {formik.touched.username && formik.errors.username && (
+              <div className={`text-red-500 ${theme === "light" ? "dark-mode-text" : ""}`}>{formik.errors.username}</div>
+            )}
           </div>
-          {errorMessage && (
-            <Alert className='mt-5' color='failure'>
-              {errorMessage}
-            </Alert>
-          )}
-        </div>
+          <div>
+            <Label value="Your password" />
+            <TextInput
+              type="password"
+              placeholder="**********"
+              id="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              className={theme === "light" ? "dark-mode-input" : ""}
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className={`text-red-500 ${theme === "light" ? "dark-mode-text" : ""}`}>{formik.errors.password}</div>
+            )}
+          </div>
+          <Button gradientDuoTone="purpleToPink" type="submit" disabled={formik.isSubmitting} className={`w-full ${theme ? "dark-mode-btn" : ""}`}>
+            {formik.isSubmitting ? (
+              <>
+                <Spinner size="sm" />
+                <span className="pl-3">Loading...</span>
+              </>
+            ) : (
+              "Sign In"
+            )}
+          </Button>
+        </form>
+        {/* <div className={`text-center mt-4 ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
+          <span>Don't have an account?</span>{" "}
+          <Link to="/sign-up" className={`text-blue-500 ${theme ? "dark-mode-link" : ""}`}>
+            Sign Up
+          </Link>
+        </div> */}
+        {formik.errors.errorMessage && <div className={`text-red-500 ${theme === "light" ? "dark-mode-text" : ""}`}>{formik.errors.errorMessage}</div>}
       </div>
     </div>
   );
-}
+};
 
 export default SignIn;

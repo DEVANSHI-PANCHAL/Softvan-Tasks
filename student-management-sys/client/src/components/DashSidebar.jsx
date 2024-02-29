@@ -17,7 +17,6 @@ export default function DashSidebar() {
     }
   }, [location.search]);
   const { currentUser } = useSelector((state) => state.user);
-
   const handleSignout = () => {
     dispatch(signoutSuccess());
   };
@@ -43,13 +42,13 @@ export default function DashSidebar() {
               </Sidebar.Item>
             </Link>
           )}
-           {currentUser.data.user.role === 'ADMIN' && (
+           {/* {currentUser.data.user.role === 'ADMIN' && ( */}
             <Link to="/dashboard?tab=students">
               <Sidebar.Item icon={HiAcademicCap} labelColor="dark">
                 Students
               </Sidebar.Item>
             </Link>
-          )}
+          {/* )} */}
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"
