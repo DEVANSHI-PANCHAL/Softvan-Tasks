@@ -9,8 +9,9 @@ import { toast } from "react-toastify";
 
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 import { loginReq } from "../service/login.api";
+import WithToast from "../components/WithToast"; // Import your WithToast HOC
 
-const SignIn = () => {
+const SignIn = ({ showToast }) => { // Receive showToast from props
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,10 +32,10 @@ const SignIn = () => {
         const token = res.data.message;
         localStorage.setItem("token", token);
     
-        if (res.status==200) {
+        if (res.status === 200) {
           dispatch(signInSuccess(res));
-          toast.success("Sign in successful!"); 
-          navigate("/dashboard");
+          showToast('Sign-in successful', 'success'); // Show toast message
+          navigate("/dashboard"); // Redirect after toast message
         } else if (res.status === 403) {
           dispatch(signInFailure(err?.message));
           toast.error("Sign in failed. Please try again."); 
@@ -97,16 +98,10 @@ const SignIn = () => {
             )}
           </Button>
         </form>
-        {/* <div className={`text-center mt-4 ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
-          <span>Don't have an account?</span>{" "}
-          <Link to="/sign-up" className={`text-blue-500 ${theme ? "dark-mode-link" : ""}`}>
-            Sign Up
-          </Link>
-        </div> */}
         {formik.errors.errorMessage && <div className={`text-red-500 ${theme === "light" ? "dark-mode-text" : ""}`}>{formik.errors.errorMessage}</div>}
       </div>
     </div>
   );
 };
 
-export default SignIn;
+export default WithToast(SignIn);

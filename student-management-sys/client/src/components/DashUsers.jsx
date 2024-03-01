@@ -18,9 +18,9 @@ const DashUsers = () => {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
 
-  const fetchUsers = async (dispatch) => { // Pass dispatch here
+  const fetchUsers = async (dispatch) => {
     try {
-      const response = await getUsers(dispatch); // Pass dispatch to getUsers function
+      const response = await getUsers(dispatch); 
       setUserDetails(response.user);
     } catch (error) {
       console.error("Error fetching users:", error.message);
@@ -30,7 +30,7 @@ const DashUsers = () => {
   const handleDeleteUser = async (userId) => {
     try {
       await deleteUser(userId);
-      fetchUsers(dispatch); // Pass dispatch here
+      fetchUsers(dispatch);
     } catch (error) {
       console.error("Error deleting user:", error.message);
     }
@@ -39,18 +39,18 @@ const DashUsers = () => {
   const handleEditUser = (user) => {
     setEditingUser(user);
     setIsEditing(true);
-    setOpenModal(true); // Open modal when editing
+    setOpenModal(true); 
   };
 
   const handleCloseModal = () => {
     setEditingUser(null);
     setIsEditing(false);
-    setOpenModal(false); // Close modal when editing is finished
+    setOpenModal(false); 
   };
 
   useEffect(() => {
-    fetchUsers(dispatch); // Pass dispatch here
-  }, [currentUser, token, dispatch]); // Add dispatch to dependency array
+    fetchUsers(dispatch); 
+  }, [currentUser, token, dispatch]);
 
   return (
     <>
