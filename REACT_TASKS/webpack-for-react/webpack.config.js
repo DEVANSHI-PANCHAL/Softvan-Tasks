@@ -1,61 +1,63 @@
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 const port = process.env.PORT || 3000;
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
+  mode: "development",
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, './public'),
-    filename: 'bundle.[hash].js'
+    path: path.resolve(__dirname, "./public"),
+    filename: "bundle.[hash].js",
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
   module: {
     rules: [
       {
         test: /\.(js)$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ["babel-loader"],
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(s(a|c)ss)$/,
-        use: ['style-loader','css-loader', 'sass-loader']
-     },
-     {
-      test: /\.(woff|woff2|eot|ttf|svg)$/,
-      use: {
-        loader: 'url-loader',
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
-},
-
-    ]
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        use: {
+          loader: "url-loader",
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg|jpg|png)$/,
+        use: {
+          loader: "url-loader",
+        },
+      },
+    ],
   },
   resolve: {
-    extensions: ['.js', '.jsx']
-},
+    extensions: [".js", ".jsx"],
+  },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, './public'),
+      directory: path.resolve(__dirname, "./public"),
     },
     hot: true,
-    host: 'localhost',
+    host: "localhost",
     port: port,
     historyApiFallback: true,
-    open: true
+    open: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      favicon: 'public/favicon.ico'
-    })
-  ]
+      template: "public/index.html",
+      favicon: "public/favicon.ico",
+    }),
+  ],
 };
