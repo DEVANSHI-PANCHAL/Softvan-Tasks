@@ -1,20 +1,20 @@
 
-import { createSlice } from '@reduxjs/toolkit';
+// import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  token: '' 
-};
+// const initialState = {
+//   token: '' 
+// };
 
-const tokenSlice = createSlice({
-  name: 'token',
-  initialState,
-  reducers: {
-    updateToken(state, action) {
+// const tokenSlice = createSlice({
+//   name: 'token',
+//   initialState,
+//   reducers: {
+//     updateToken(state, action) {
 
-      state.token = action.payload; 
-    }
-  }
-});
+//       state.token = action.payload; 
+//     }
+//   }
+// });
 
-export const { updateToken } = tokenSlice.actions;
-export default tokenSlice.reducer;
+// export const { updateToken } = tokenSlice.actions;
+// export default tokenSlice.reducer;

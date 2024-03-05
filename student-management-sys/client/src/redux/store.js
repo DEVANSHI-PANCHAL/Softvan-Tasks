@@ -4,14 +4,14 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./user/userSlice";
 import themeReducer from './theme/themeSlice';
 import studentReducer from './student/studentSlice';
-import tokenReducer from './token/tokenSlice';
+// import tokenReducer from './token/tokenSlice';
 
 // Combine all reducers
 const rootReducer = combineReducers({
   user: userReducer,
   theme: themeReducer,
   student: studentReducer,
-  token: tokenReducer
+  // token: tokenReducer
 });
 
 // Redux Persist configuration

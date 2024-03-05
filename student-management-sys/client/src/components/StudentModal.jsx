@@ -8,11 +8,11 @@ import {
   Alert,
   FileInput,
 } from "flowbite-react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { createStudent, updateStudent } from "../service/student.api";
+import WithToast from "./WithToast";
 
 const StudentModal = ({
   fetchStudents,
@@ -20,6 +20,7 @@ const StudentModal = ({
   editingStudent,
   openModal,
   handleCloseModal,
+  showToast,
 }) => {
   const [selectedImage, setSelectedImage] = useState(
     editingStudent ? editingStudent.base64Image : null
@@ -32,7 +33,7 @@ const StudentModal = ({
     email: editingStudent ? editingStudent.email : "",
     password: editingStudent ? editingStudent.password : "",
     phonenumber: editingStudent ? editingStudent.phonenumber : "",
-    file: editingStudent ? editingStudent.file : ""
+    file: editingStudent ? editingStudent.file : "",
     // fileName: editingStudent ? editingStudent.fileName : null,
     // fileURL: editingStudent ? editingStudent.fileURL : null,
   };
@@ -77,20 +78,19 @@ const StudentModal = ({
       formData.append("password", values.password);
       formData.append("phonenumber", values.phonenumber);
       if (imageFile) formData.append("file", imageFile);
-
+      let res = null;
       if (isEditing) {
         const studentId = editingStudent.id;
-        const res = await updateStudent(studentId, formData);
-        toast.success("Student updated successfully");
+        res = await updateStudent(studentId, formData);
       } else {
         console.log("in create");
         console.log("form data in create", formData);
-        const res = await createStudent(formData);
-        toast.success("Student created successfully");
+        res = await createStudent(formData);
       }
-
+      console.log("ressss",res)
       resetForm();
       handleCloseModal();
+      showToast(res.message, "success");
       fetchStudents();
     } catch (error) {
       console.error(error);
@@ -118,22 +118,26 @@ const StudentModal = ({
                   <div>
                     <Label htmlFor="file" title="click to upload image">
                       <div className="w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full">
-                        {isEditing ? <img
-                          src={selectedImage || editingStudent?.base64Image}
-                          alt="image"
-                          className="rounded-full w-full h-full object-cover border-8 border-[lightgray]"
-                        /> :<img
-                        src={"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="}
-                        alt="image"
-                        className="rounded-full w-full h-full object-cover border-8 border-[lightgray]"
-                      /> }
-                        
+                        {isEditing ? (
+                          <img
+                            src={selectedImage || editingStudent?.base64Image}
+                            alt="image"
+                            className="rounded-full w-full h-full object-cover border-8 border-[lightgray]"
+                          />
+                        ) : (
+                          <img
+                            src={
+                              "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                            }
+                            alt="image"
+                            className="rounded-full w-full h-full object-cover border-8 border-[lightgray]"
+                          />
+                        )}
                       </div>
                     </Label>
-                    <Field name="file" style={{display: 'none'}}>
+                    <Field name="file" style={{ display: "none" }}>
                       {({ field, form }) => (
                         <div className="hidden">
-                      
                           <FileInput
                             imageFile
                             id="file"
@@ -238,10 +242,9 @@ const StudentModal = ({
             )}
           </Formik>
         </Modal.Body>
-        <ToastContainer />
       </Modal>
     </>
   );
 };
 
-export default StudentModal;
+export default WithToast(StudentModal); 

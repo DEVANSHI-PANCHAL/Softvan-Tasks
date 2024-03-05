@@ -7,6 +7,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { deleteUser, getUsers } from "../service/user.api";
 import UserModal from "./UserModal";
+import { successToast } from "./ToastMsgs";
+
 
 const DashUsers = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -17,20 +19,20 @@ const DashUsers = () => {
   const token = currentUser?.message;
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
-
-  const fetchUsers = async (dispatch) => {
+  const fetchUsers = async (dispatch) => { // Pass dispatch here
+    console.log("users", dispatch)
     try {
-      const response = await getUsers(dispatch); 
+      const response = await getUsers(dispatch); // Pass dispatch to getUsers function
       setUserDetails(response.user);
     } catch (error) {
       console.error("Error fetching users:", error.message);
     }
   };
-
   const handleDeleteUser = async (userId) => {
     try {
-      await deleteUser(userId);
+      const res = await deleteUser(userId);
       fetchUsers(dispatch);
+      successToast(res.message) // Pass dispatch here
     } catch (error) {
       console.error("Error deleting user:", error.message);
     }
@@ -39,71 +41,67 @@ const DashUsers = () => {
   const handleEditUser = (user) => {
     setEditingUser(user);
     setIsEditing(true);
-    setOpenModal(true); 
+    setOpenModal(true); // Open modal when editing
   };
-
   const handleCloseModal = () => {
     setEditingUser(null);
     setIsEditing(false);
-    setOpenModal(false); 
+    setOpenModal(false); // Close modal when editing is finished
   };
-
   useEffect(() => {
-    fetchUsers(dispatch); 
-  }, [currentUser, token, dispatch]);
-
+    fetchUsers(dispatch); // Pass dispatch here
+  }, [currentUser, token, dispatch]); // Add dispatch to dependency array
   return (
     <>
-      <div className="md:flex-grow p-4">
-        <div className="flex justify-between items-center mb-4">
-          <Button onClick={() => setOpenModal(true)}>
-            Create User
-          </Button>
-          <UserModal
-            fetchUsers={fetchUsers}
-            isEditing={isEditing}
-            editingUser={editingUser}
-            openModal={openModal}
-            handleCloseModal={handleCloseModal}
-          />
-        </div>
-        <Table hoverable className="shadow-md w-full mx-auto">
-          <Table.Head>
-            <Table.HeadCell>ID</Table.HeadCell>
-            <Table.HeadCell>Username</Table.HeadCell>
-            <Table.HeadCell>Role</Table.HeadCell>
-            <Table.HeadCell>Delete</Table.HeadCell>
-            <Table.HeadCell>Edit</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {userDetails.map((user) => (
-              <Table.Row
-                key={user._id}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <Table.Cell>{user.id}</Table.Cell>
-                <Table.Cell>{user.username}</Table.Cell>
-                <Table.Cell>{user.role}</Table.Cell>
-                <Table.Cell>
-                  <MdDelete
-                    className="font-medium text-red-500 hover:underline cursor-pointer"
-                    onClick={() => handleDeleteUser(user.id)}
-                  />
-                </Table.Cell>
-                <Table.Cell>
-                  <LiaEditSolid
-                    className="text-teal-500 hover:underline cursor-pointer"
-                    onClick={() => handleEditUser(user)}
-                  />
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+    <div className="md:flex-grow p-4">
+      <div className="flex justify-between items-center mb-4">
+        <Button onClick={() => setOpenModal(true)}>
+          Create User
+        </Button>
+        <UserModal
+          fetchUsers={fetchUsers}
+          isEditing={isEditing}
+          editingUser={editingUser}
+          openModal={openModal}
+          handleCloseModal={handleCloseModal}
+        />
       </div>
-      <ToastContainer />
+      <Table hoverable className="shadow-md w-full mx-auto">
+        <Table.Head>
+          <Table.HeadCell>ID</Table.HeadCell>
+          <Table.HeadCell>Username</Table.HeadCell>
+          <Table.HeadCell>Role</Table.HeadCell>
+          <Table.HeadCell>Delete</Table.HeadCell>
+          <Table.HeadCell>Edit</Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
+          {userDetails.map((user) => (
+            <Table.Row
+              key={user._id}
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
+              <Table.Cell>{user.id}</Table.Cell>
+              <Table.Cell>{user.username}</Table.Cell>
+              <Table.Cell>{user.role}</Table.Cell>
+              <Table.Cell>
+                <MdDelete
+                  className="font-medium text-red-500 hover:underline cursor-pointer"
+                  onClick={() => handleDeleteUser(user.id)}
+                />
+              </Table.Cell>
+              <Table.Cell>
+                <LiaEditSolid
+                  className="text-teal-500 hover:underline cursor-pointer"
+                  onClick={() => handleEditUser(user)}
+                />
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    </div>
+    <ToastContainer />
     </>
   );
 };
-
 export default DashUsers;

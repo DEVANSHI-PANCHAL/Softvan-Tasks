@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { createUser, updateUser } from "../service/user.api";
+import { successToast } from "./ToastMsgs";
 
 const UserModal = ({
   fetchUsers,
@@ -15,7 +16,7 @@ const UserModal = ({
 }) => {
   const initialValues = {
     username: editingUser ? editingUser.username : "",
-    password: "",
+    password: editingUser? editingUser.password : "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -26,20 +27,22 @@ const UserModal = ({
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    let res = null;
     try {
       setSubmitting(true);
-
+  
       if (isEditing) {
         const userId = editingUser.id;
-        const res = await updateUser(userId, values);
-        toast.success("User updated successfully");
+        res = await updateUser(userId, values);
       } else {
-        const res = await createUser(values);
-        toast.success("User created successfully");
+        res = await createUser(values);
       }
+      
+      successToast(res.message);
 
+       handleCloseModal();
+  
       resetForm();
-      handleCloseModal();
       fetchUsers();
     } catch (error) {
       console.error(error);
@@ -48,6 +51,7 @@ const UserModal = ({
       setSubmitting(false);
     }
   };
+  
 
   return (
     <Modal show={openModal} onClose={handleCloseModal}>
@@ -107,7 +111,6 @@ const UserModal = ({
           )}
         </Formik>
       </Modal.Body>
-      <ToastContainer />
     </Modal>
   );
 };

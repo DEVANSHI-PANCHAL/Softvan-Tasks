@@ -23,7 +23,7 @@ api.interceptors.response.use(
       // Redirect or handle unauthorized access
       window.location.href = "/";
     }
-    return Promise.reject(error);
+    return Promise.reject(error); 
   }
 );
 

@@ -3,12 +3,23 @@
 import { useSelector } from "react-redux";
 import { getAccessToken } from "./Token";
 import { request, requestForm } from "./common.service";
+import { errorToast, successToast } from "../components/ToastMsgs";
 
 
 export function createUser(formData) {
     console.log("FORM DATA",formData)
-  return request({ url: "register", method: "POST", body: formData });
+  return request({ url: "register", method: "POST", body: formData })
+  .then ((response)=>{
+    console.log("response in promise",response)
+    return response;
+  })
+  .catch((error) => {
+    console.log("Error creating user:", error);
+    throw error;
+  });
 }
+
+
 
 export const getUsers = async (dispatch) => {
   try {
@@ -49,3 +60,4 @@ export const updateUser = async(userId,formData) => {
         body: formData
       });
 }
+
