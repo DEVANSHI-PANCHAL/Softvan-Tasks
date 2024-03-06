@@ -1,5 +1,12 @@
 import React from "react";
-import { Modal, Spinner, Button, TextInput, Label, Alert } from "flowbite-react";
+import {
+  Modal,
+  Spinner,
+  Button,
+  TextInput,
+  Label,
+  Alert,
+} from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -7,112 +14,107 @@ import * as Yup from "yup";
 import { createUser, updateUser } from "../service/user.api";
 import { successToast } from "./ToastMsgs";
 
-const UserModal = ({
-  fetchUsers,
-  isEditing,
-  editingUser,
-  openModal,
-  handleCloseModal,
-}) => {
-  const initialValues = {
-    username: editingUser ? editingUser.username : "",
-    password: editingUser? editingUser.password : "",
-  };
+const UserModal = React.memo(
+  ({ fetchUsers, isEditing, editingUser, openModal, handleCloseModal }) => {
+    const initialValues = {
+      username: editingUser ? editingUser.username : "",
+      password: editingUser ? editingUser.password : "",
+    };
 
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Username is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters"),
-  });
+    const validationSchema = Yup.object().shape({
+      username: Yup.string().required("Username is required"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(8, "Password must be at least 8 characters"),
+    });
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    let res = null;
-    try {
-      setSubmitting(true);
-  
-      if (isEditing) {
-        const userId = editingUser.id;
-        res = await updateUser(userId, values);
-      } else {
-        res = await createUser(values);
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+      let res = null;
+      try {
+        setSubmitting(true);
+
+        if (isEditing) {
+          const userId = editingUser.id;
+          res = await updateUser(userId, values);
+        } else {
+          res = await createUser(values);
+        }
+
+        successToast(res.message);
+
+        handleCloseModal();
+
+        resetForm();
+        fetchUsers();
+      } catch (error) {
+        console.error(error);
+        toast.error("An error occurred. Please try again later.");
+      } finally {
+        setSubmitting(false);
       }
-      
-      successToast(res.message);
+    };
 
-       handleCloseModal();
-  
-      resetForm();
-      fetchUsers();
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred. Please try again later.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-  
-
-  return (
-    <Modal show={openModal} onClose={handleCloseModal}>
-      <Modal.Header>{isEditing ? "Edit User" : "Create User"}</Modal.Header>
-      <Modal.Body>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <div className="space-y-6">
-                <div>
-                  <Label value="Username" />
-                  <Field
-                    type="text"
-                    name="username"
-                    placeholder="Enter username"
-                    as={TextInput}
-                  />
-                  <ErrorMessage name="username" component={Alert} />
-                </div>
-                {!isEditing && (
+    return (
+      <Modal show={openModal} onClose={handleCloseModal}>
+        <Modal.Header>{isEditing ? "Edit User" : "Create User"}</Modal.Header>
+        <Modal.Body>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="space-y-6">
                   <div>
-                    <Label value="User password" />
+                    <Label value="Username" />
                     <Field
-                      type="password"
-                      name="password"
-                      placeholder="**********"
+                      type="text"
+                      name="username"
+                      placeholder="Enter username"
                       as={TextInput}
                     />
-                    <ErrorMessage name="password" component={Alert} />
+                    <ErrorMessage name="username" component={Alert} />
                   </div>
-                )}
-              </div>
-              <Modal.Footer>
-                <Button
-                  gradientDuoTone="purpleToPink"
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Spinner size="sm" />
-                      <span className="pl-3">Loading...</span>
-                    </>
-                  ) : (
-                    "Save"
+                  {!isEditing && (
+                    <div>
+                      <Label value="User password" />
+                      <Field
+                        type="password"
+                        name="password"
+                        placeholder="**********"
+                        as={TextInput}
+                      />
+                      <ErrorMessage name="password" component={Alert} />
+                    </div>
                   )}
-                </Button>
-                <Button color="gray" onClick={handleCloseModal}>
-                  Cancel
-                </Button>
-              </Modal.Footer>
-            </Form>
-          )}
-        </Formik>
-      </Modal.Body>
-    </Modal>
-  );
-};
+                </div>
+                <Modal.Footer>
+                  <Button
+                    gradientDuoTone="purpleToPink"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Spinner size="sm" />
+                        <span className="pl-3">Loading...</span>
+                      </>
+                    ) : (
+                      "Save"
+                    )}
+                  </Button>
+                  <Button color="gray" onClick={handleCloseModal}>
+                    Cancel
+                  </Button>
+                </Modal.Footer>
+              </Form>
+            )}
+          </Formik>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+);
 
 export default UserModal;
