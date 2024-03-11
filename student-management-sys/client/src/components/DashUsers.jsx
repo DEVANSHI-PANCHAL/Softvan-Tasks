@@ -6,41 +6,26 @@ import { successToast } from "./ToastMsgs";
 import { useDispatch, useSelector } from "react-redux";
 import { LiaEditSolid } from "react-icons/lia";
 import { MdDelete } from "react-icons/md";
-
-const PAGE_SIZE = 10;
+import { useFetchUsers, useIntersectionObserver } from "../hooks/useFetchUsers";
 
 const DashUsers = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [userDetails, setUserDetails] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState(null);
-  const token = currentUser?.message;
-  const dispatch = useDispatch();
-  const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const loaderRef = useRef(null); 
+  const PAGE_SIZE = 10; // Moved PAGE_SIZE constant inside the component
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const response = await getUsers(page, PAGE_SIZE);
-      setUserDetails((prevUsers) => [...prevUsers, ...response.user]);
-    } catch (error) {
-      console.error("Error fetching users:", error.message);
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useFetchUsers(page, setPage, userDetails, setUserDetails, setLoading);
+  useIntersectionObserver(loaderRef, setPage);
 
   const handleDeleteUser = async (userId) => {
     try {
-      const res = await deleteUser(userId);
-      const updatedUsers = userDetails.filter((user) => user.id !== userId);
-      setUserDetails(updatedUsers);
-      successToast(res.message);
+      await deleteUser(userId);
+      setUserDetails((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+      successToast("User deleted successfully");
     } catch (error) {
       console.error("Error deleting user:", error.message);
     }
@@ -49,52 +34,21 @@ const DashUsers = () => {
   const handleEditUser = (user) => {
     setEditingUser(user);
     setIsEditing(true);
-    setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setEditingUser(null);
     setIsEditing(false);
-    setOpenModal(false);
   };
-
-  useEffect(() => {
-    fetchUsers();
-  }, [page]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      },
-      { threshold: 1 } 
-    );
-
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
-
-    return () => {
-      if (loaderRef.current) {
-        observer.unobserve(loaderRef.current);
-      }
-    };
-  }, []); 
 
   return (
     <>
       <div className="md:flex-grow p-4">
         <div className="flex justify-between items-center mb-4">
-          <Button onClick={() => setOpenModal(true)}>
-            Create User
-          </Button>
+          <Button onClick={() => setIsEditing(true)}>Create User</Button>
           <UserModal
-            fetchUsers={fetchUsers}
             isEditing={isEditing}
             editingUser={editingUser}
-            openModal={openModal}
             handleCloseModal={handleCloseModal}
           />
         </div>
