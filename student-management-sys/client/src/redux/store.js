@@ -1,51 +1,17 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import userReducer from "./user/userSlice";
-import themeReducer from './theme/themeSlice';
-import studentReducer from './student/studentSlice';
-import thunk from 'redux-thunk';
-import { applyMiddleware } from 'redux';
-
-const rootReducer = combineReducers({
-  user: userReducer,
-  theme: themeReducer,
-  student: studentReducer,
-});
-
-const persistConfig = {
-  key: "root",
-  storage,
-  version: 1,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: [thunk],
-});
-
-export const persistor = persistStore(store);
-
-export const dispatch = store.dispatch;
-
-
-
-
-
 // import { configureStore, combineReducers } from "@reduxjs/toolkit";
 // import { persistReducer, persistStore } from "redux-persist";
 // import storage from "redux-persist/lib/storage";
-// import {userReducer} from "./user/userSlice"; // Import userReducer
-// import { themeReducer } from "./theme/themeSlice";
-// import { studentReducer } from './student/studentSlice';
+// import userReducer from "./user/userSlice";
+// import themeReducer from './theme/themeSlice';
+// import studentReducer from './student/studentSlice';
+// // import tokenReducer from './token/tokenSlice';
 
 // // Combine all reducers
 // const rootReducer = combineReducers({
 //   user: userReducer,
 //   theme: themeReducer,
 //   student: studentReducer,
+//   // token: tokenReducer
 // });
 
 // // Redux Persist configuration
@@ -70,3 +36,39 @@ export const dispatch = store.dispatch;
 
 // // Access dispatch function from the store
 // export const dispatch = store.dispatch;
+
+
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { logger } from 'redux-logger';
+import userReducer from "./user/userSlice";
+import themeReducer from './theme/themeSlice';
+import studentReducer from './student/studentSlice';
+import loggerMiddleware from "./middleware/logger";
+
+const rootReducer = combineReducers({
+  user: userReducer,
+  theme: themeReducer,
+  student: studentReducer,
+});
+
+const persistConfig = {
+  key: "root",
+  storage,
+  version: 1,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({ serializableCheck: false }).concat(logger),
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({ serializableCheck: false }).concat(logger),
+    
+});
+
+export const persistor = persistStore(store);
+export const dispatch = store.dispatch;
