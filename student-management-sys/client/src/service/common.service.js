@@ -92,6 +92,8 @@ export const request = (options) => {
 
 export const requestLogin = (options) => {
   const config = requestConfig(options);
+  console.log("config",config)
+  console.log(LoginApi.request(config))
   return LoginApi.request(config);
 };
 
