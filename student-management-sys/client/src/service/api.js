@@ -4,6 +4,10 @@ import { store } from "../redux/store";
 
 const apiBaseURL = "http://192.168.10.60:9090/";
 
+export const LoginApi = axios.create({
+  baseURL: "http://192.168.10.60:9090/",
+});
+
 export const api = axios.create({ baseURL: apiBaseURL });
 
 api.interceptors.request.use(async (config) => {
@@ -26,10 +30,6 @@ api.interceptors.response.use(
     return Promise.reject(error); 
   }
 );
-
-const LoginApi = axios.create({
-  baseURL: "http://192.168.10.60:9090/",
-});
 
 const requestConfig = (options) => {
   const config = {
@@ -65,8 +65,7 @@ const requestConfigForm = (options) => {
     config.data = options.body;
   }
   if (options.params) {
-    config.params = options.params;
-  }
+    config.params = options.params;}
   if (options.cancelToken) {
     config.cancelToken = options.cancelToken;
   }
@@ -90,18 +89,11 @@ export const request = (options) => {
   return api.request(config);
 };
 
-// export const requestLogin = (options) => {
-//   const config = requestConfig(options);
-//   console.log("config",config)
-//   console.log(LoginApi.request(config))
-//   return LoginApi.request(config);
-// };
-export const requestLogin = (options) => {
-  const config = requestConfig(options);
+export const requestLogin = (formData) => {
+  const config = requestConfig(formData);
   console.log("config",config)
   return config;
 };
-
 
 export const requestForm = (options) => {
   const config = requestConfigForm(options);

@@ -7,6 +7,8 @@ import { selectUser } from '../redux/user/userSlice';
 const DashProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  console.log("USER",user)
+  const currentUser = user.payload.data.user.username
   const location = import.meta.env.VITE_APP_LOCATION;
 
   useEffect(() => {
@@ -27,7 +29,7 @@ const DashProfile = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Welcome, {user}!</h2>
+      <h2 className="text-2xl font-bold mb-4">Welcome, {currentUser}!</h2>
       <Card>
         {weatherData && (
           <>

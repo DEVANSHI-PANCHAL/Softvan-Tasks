@@ -2,8 +2,8 @@ import { Sidebar } from "flowbite-react";
 import { HiUser,HiUserGroup, HiArrowSmRight, HiAcademicCap } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { signoutSuccess } from "../redux/user/userSlice";
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -16,7 +16,11 @@ export default function DashSidebar() {
       setTab(tabFromUrl);
     }
   }, [location.search]);
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
+  const state = useSelector((state) => state);
+  console.log(state);
+  const currentUser = state.user.currentUser.payload.data.user
+  console.log(currentUser)
   const handleSignout = () => {
     dispatch(signoutSuccess());
   };
@@ -29,13 +33,13 @@ export default function DashSidebar() {
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
-              label={currentUser.data.user.role}
+              label={currentUser.role}
               labelColor="dark"
             >
               Profile
             </Sidebar.Item>
           </Link>
-          {currentUser.data.user.role === 'ADMIN' && (
+          {currentUser.role === 'ADMIN' && (
             <Link to="/dashboard?tab=users">
               <Sidebar.Item icon={HiUserGroup} labelColor="dark">
                 Users

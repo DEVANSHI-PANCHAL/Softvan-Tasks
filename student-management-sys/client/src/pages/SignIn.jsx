@@ -7,9 +7,11 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import { signInStart, signInFailure } from "../redux/user/user1Slice";
 import { loginReq } from "../service/login.api";
 import WithToast from "../components/WithToast"; // Import your WithToast HOC
+import { signIn } from "../redux/user/userThunks";
+import { signInSuccess } from "../redux/user/userSlice";
 
 const SignIn = ({ showToast }) => { // Receive showToast from props
   const theme = useSelector((state) => state.theme.theme);
@@ -27,22 +29,26 @@ const SignIn = ({ showToast }) => { // Receive showToast from props
     }),
     onSubmit: async (values, { setSubmitting }, err) => {
       try {
-        dispatch(signInStart());
-        const res = await loginReq(values);
-        const token = res.data.message;
+        // dispatch(signInStart());
+        // const res = await loginReq(values);
+       const  {username, password} = values
+        console.log("values",values)
+        const res = await dispatch(signIn({username,password}))
+        console.log("RES",res.payload)
+        const token = res.payload.data.message;
         localStorage.setItem("token", token);
     
-        if (res.status === 200) {
+        if (res.payload.status === 200) {
           dispatch(signInSuccess(res));
           showToast('Sign-in successful', 'success'); // Show toast message
-          navigate("/dashboard"); // Redirect after toast message
+          navigate("/dashboard"); 
         } else if (res.status === 403) {
           dispatch(signInFailure(err?.message));
-          toast.error("Sign in failed. Please try again."); 
+          toast.error(err?.message); 
         }
       } catch (error) {
-        dispatch(signInFailure(err?.message));
-        toast.error("Sign in failed. Please try again."); 
+        dispatch(signInFailure(error?.message));
+        toast.error(error?.message); 
       }
       setSubmitting(false);
     },

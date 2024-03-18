@@ -8,7 +8,11 @@ import { signoutSuccess } from "../redux/user/userSlice";
 
 export default function Header() {
   const path = useLocation().pathname;
-  const { currentUser } = useSelector((state) => state.user);
+  // const { payload } = useSelector((state) => {state.user.payload});
+  const state = useSelector((state) => state);
+console.log(state);
+const cu = state.user.currentUser.payload.data.user
+console.log(cu)
 
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
@@ -61,19 +65,19 @@ export default function Header() {
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-        {currentUser ? (
+        {cu ? (
           <Dropdown
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
+              <Avatar alt="user" img={cu.profilePicture} rounded />
             }
           >
             <Dropdown.Header>
               <span className="block text-sm">
-                {currentUser.data.user?.username}
+                {cu.username}
               </span>
-              {/* <span className='block text-sm font-medium truncate'>{currentUser.email}</span> */}
+              {/* <span className='block text-sm font-medium truncate'>{cu.email}</span> */}
             </Dropdown.Header>
             <Link to={"/dashboard?tab=profile"}>
               <Dropdown.Item>Profile</Dropdown.Item>

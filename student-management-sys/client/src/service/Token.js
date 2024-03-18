@@ -2,7 +2,7 @@ import { requestLogin } from "./common.service";
 import { jwtDecode } from "jwt-decode";
 // import { updateToken } from '../redux/token/tokenSlice';
 import { store } from '../redux/store'; 
-import { signInSuccess } from "../redux/user/userSlice";
+import { signInSuccess } from "../redux/user/user1Slice";
 
 let accessToken = null; // Initialize accessToken variable
 
