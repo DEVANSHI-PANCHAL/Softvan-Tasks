@@ -1,26 +1,32 @@
-import React from "react";
-import {
-  Modal,
-  Spinner,
-  Button,
-  TextInput,
-  Label,
-  Alert,
-} from "flowbite-react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState } from "react";
+import { Modal, Spinner, Button, TextInput, Label, Alert } from "flowbite-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { createUser, updateUser } from "../service/user.api";
+import { createUser, getUsers, updateUser } from "../service/user.api";
 import { successToast } from "./ToastMsgs";
+import { useFetchUsers } from "../hooks/useFetchUsers";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserModal = React.memo(
-  ({ fetchUsers, isEditing, editingUser, openModal, handleCloseModal }) => {
+  ({
+    isEditing,
+    editingUser,
+    openModal,
+    handleCloseModal,
+    page,
+    setPage,
+    userDetails,
+    setUserDetails,
+    setLoading,
+    
+  }) => {
     const initialValues = {
       username: editingUser ? editingUser.username : "",
       password: editingUser ? editingUser.password : "",
     };
-
+    const [data, setData] = useState([])
+    const currentUser = useSelector((state) => state.user.currentUser.payload.data.message);
+    const dispatch = useDispatch();
     const validationSchema = Yup.object().shape({
       username: Yup.string().required("Username is required"),
       password: Yup.string()
@@ -28,31 +34,70 @@ const UserModal = React.memo(
         .min(8, "Password must be at least 8 characters"),
     });
 
+    const fetchUsersData = async () => {
+      setLoading(true);
+      try {
+        console.log("in fetch users data")
+        const response = await getUsers(currentUser, dispatch);
+        console.log("in fetch users data res",response)
+        setData((prevUsers) => [...prevUsers, ...response.user]);
+      } catch (error) {
+        console.error("Error fetching users:", error.message);
+        // setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    useEffect(() => {
+      if (!isEditing) {
+        fetchUsersData();
+      }
+    }, [isEditing]);
+    // useFetchUsers(page, setPage, userDetails, setUserDetails, setLoading);
+    const {fetchUsers} = useFetchUsers(page, setPage, userDetails, setUserDetails, setLoading)
+
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
       let res = null;
       try {
         setSubmitting(true);
-
+  
         if (isEditing) {
           const userId = editingUser.id;
           res = await updateUser(userId, values);
+      //      setUserDetails((prevUsers) =>
+      //   prevUsers.map((prevUser) => (prevUser.id === editingUser.id ? editingUser : prevUser))
+      // );
+      // fetchUsersData();
+      // fetchUsers();
+      if(res.message){
+        console.log("hei")
+        await getUsers(editingUser, dispatch).then(resp => {
+          setUserDetails(resp.user)
+        });
+  
+      }
         } else {
           res = await createUser(values);
         }
-
+  
         successToast(res.message);
-
+  
         handleCloseModal();
-
         resetForm();
-        fetchUsers();
+        // fetchUsersData();
+        
+        // fetchUsers()
       } catch (error) {
         console.error(error);
-        toast.error("An error occurred. Please try again later.");
       } finally {
         setSubmitting(false);
       }
     };
+    
+    // useFetchUsers(page, setPage, userDetails, setUserDetails, setLoading);
+
+  
+  
 
     return (
       <Modal show={openModal} onClose={handleCloseModal}>
@@ -116,5 +161,6 @@ const UserModal = React.memo(
     );
   }
 );
+UserModal.displayName = "UserModal";
 
 export default UserModal;

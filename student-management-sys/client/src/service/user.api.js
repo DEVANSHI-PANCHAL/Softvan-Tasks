@@ -21,16 +21,22 @@ export function createUser(formData) {
 
 
 
-export const getUsers = async (dispatch) => {
+export const getUsers = async (currentUser,dispatch) => {
   try {
+    console.log("get users")
     // const { currentUser } = useSelector((state) => state.user);
+    // const state = useSelector((state) => state);
 
-    // await getAccessToken(currentUser, dispatch);
+    // const currentUser = state.user.currentUser.payload.data.user
+    console.log("guc",currentUser)
+
+    await getAccessToken(currentUser, dispatch);
 
     const response = await request({
       url: "getUsers",
       method: "GET",
     });
+    console.log("response", response)
     return response;
   } catch (error) {
     console.error("Error fetching users:", error);

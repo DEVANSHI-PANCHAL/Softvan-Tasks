@@ -1,4 +1,6 @@
-import { getUsers } from '../service/user.api';
+import { useSelector, useDispatch } from "react-redux";
+import { getUsers } from "../service/user.api";
+import { useEffect, useState } from "react";
 
 export const useFetchUsers = (
   page,
@@ -8,27 +10,42 @@ export const useFetchUsers = (
   setLoading,
   setError
 ) => {
+  const currentUser = useSelector(
+    (state) => state.user.currentUser.payload.data.message
+  );
+  console.log("CURR", currentUser);
+  const dispatch = useDispatch();
+  const [data, setData] = useState([]);
+  const [loading, setLoadingState] = useState(false);
+  const [error, setErrorState] = useState(null);
+
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
+      console.log("this")
       try {
-        const response = await getUsers(page);
+        const response = await getUsers(currentUser, dispatch);
         setUserDetails((prevUsers) => [...prevUsers, ...response.user]);
+        setData(response.user);
+
       } catch (error) {
         console.error("Error fetching users:", error.message);
         setError(error);
+        setErrorState(error);
+
       } finally {
         setLoading(false);
+        setLoadingState(false);
+
       }
     };
 
     fetchUsers();
-
-  }, [page, setUserDetails, setLoading, setError]);
+  }, [page, setUserDetails, setLoading, setError, dispatch, currentUser]);
+  return {data, loading, error}
 };
 
 // useIntersectionObserver.js
-import { useEffect } from 'react';
 
 export const useIntersectionObserver = (loaderRef, setPage) => {
   useEffect(() => {
@@ -50,6 +67,6 @@ export const useIntersectionObserver = (loaderRef, setPage) => {
         observer.unobserve(loaderRef.current);
       }
     };
-
   }, [loaderRef, setPage]);
 };
+
