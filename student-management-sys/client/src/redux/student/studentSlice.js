@@ -80,5 +80,5 @@ const studentSlice = createSlice({
 });
 
 // Export actions and reducer
-export const { studentReducer} = studentSlice.actions; // Add other action creators if needed
+export const { studentReducer} = studentSlice.actions; 
 export default studentSlice.reducer;

@@ -9,6 +9,11 @@ import weatherDataReducer from "./weather/weatherDataSlice";
 import thunk from 'redux-thunk';
 import userSlice from "./user/userSlice";
 // import loggerMiddleware from "./middleware/logger";
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas/rootSaga';
+
+
+const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   // user: user1Reducer,
@@ -29,8 +34,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(thunk, logger),
+    getDefaultMiddleware({ serializableCheck: false }).concat(thunk, logger,sagaMiddleware),
 });
 
 export const persistor = persistStore(store);
 export const dispatch = store.dispatch;
+
+sagaMiddleware.run(rootSaga);

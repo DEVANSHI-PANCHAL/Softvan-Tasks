@@ -7,11 +7,11 @@ import { selectUser } from '../redux/user/userSlice';
 const DashProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  console.log("USER",user)
-  const currentUser = user.payload.data.user.username
+  const currentUser = user.payload.data.user.username;
   const location = import.meta.env.VITE_APP_LOCATION;
 
   useEffect(() => {
+    // Dispatch the fetchWeatherData action to trigger the saga
     dispatch(fetchWeatherData(location));
   }, [dispatch, location]);
 
