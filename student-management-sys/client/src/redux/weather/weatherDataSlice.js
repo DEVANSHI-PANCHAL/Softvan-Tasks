@@ -1,18 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { fetchWeatherData } from './weatherThunk';
 
-export const fetchWeatherData = createAsyncThunk(
-  'weatherData/fetchWeatherData',
-  async (location) => {
-    const apiKey = import.meta.env.VITE_APP_OPENWEATHERMAP_API_KEY;
-    const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`
-    );
-    const data = response.data;
-    const celsiusTemp = (data.main.temp - 273.15).toFixed(1);
-    return { ...data, main: { ...data.main, temp: celsiusTemp } };
-  }
-);
+// export const fetchWeatherData = createAsyncThunk(
+//   'weatherData/fetchWeatherData',
+//   async (location) => {
+//     const apiKey = import.meta.env.VITE_APP_OPENWEATHERMAP_API_KEY;
+//     const response = await axios.get(
+//       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`
+//     );
+//     const data = response.data;
+//     const celsiusTemp = (data.main.temp - 273.15).toFixed(1);
+//     return { ...data, main: { ...data.main, temp: celsiusTemp } };
+//   }
+// );
 
 const weatherDataSlice = createSlice({
   name: 'weatherData',
@@ -45,10 +46,15 @@ const weatherDataSlice = createSlice({
         state.data = null;
         state.loading = false;
         state.error = action.error;
+      })
+      .addCase(fetchWeatherData.pending, (state) => {
+        state.loading = true;
       });
+    
   },
 });
 
 export const {fetchWeatherDataRequest,fetchWeatherDataSuccess,fetchWeatherDataFailure} = weatherDataSlice.actions;
 
 export default weatherDataSlice.reducer;
+

@@ -1,13 +1,13 @@
-// user.api.js
+// student.api.js
 
 import { imageRes, request, requestForm } from "./common.service";
 
-export function createStudent(formData) {
+export function createStudentApi(formData) {
     console.log("FORM DATA",formData)
   return requestForm({ url: "student", method: "POST", body: formData });
 }
 
-export const getStudents = async () => {
+export const getStudentsApi = async () => {
     try {
       const response = await request({
         url: 'student', 
@@ -20,7 +20,7 @@ export const getStudents = async () => {
     }
   };
 
-  export const getStudentImage = async(imageName) => {
+  export const getStudentImageApi = async(imageName) => {
     try {
       const response = await imageRes({
         url: `student/download/${imageName}`, 
@@ -34,7 +34,7 @@ export const getStudents = async () => {
   }
   
 // Function to delete a user
-export const deleteStudent = async (userId) => {
+export const deleteStudentApi = async (userId) => {
     try {
       const response = await request({
         url: `student/${userId}`, 
@@ -47,7 +47,7 @@ export const deleteStudent = async (userId) => {
     }
   };
 
-export const updateStudent = async(userId,formData) => {
+export const updateStudentApi = async(userId,formData) => {
   console.log("update user")
   return requestForm({
         url: `student/${userId}`,

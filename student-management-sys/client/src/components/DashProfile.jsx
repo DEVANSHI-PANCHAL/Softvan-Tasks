@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWeatherData } from '../redux/weather/weatherDataSlice';
+// import { fetchWeatherData } from '../redux/weather/weatherDataSlice';
 import { Card } from 'flowbite-react';
 import { selectUser } from '../redux/user/userSlice';
+import { fetchWeatherData } from '../redux/weather/weatherThunk';
 
 const DashProfile = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,8 @@ const DashProfile = () => {
 
   useEffect(() => {
     // Dispatch the fetchWeatherData action to trigger the saga
-    dispatch(fetchWeatherData(location));
+    // dispatch(fetchWeatherData(location));
+    dispatch(fetchWeatherData(location))
   }, [dispatch, location]);
 
   const weatherData = useSelector((state) => state.weatherData.data);

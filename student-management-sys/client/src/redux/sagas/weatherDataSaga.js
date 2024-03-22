@@ -1,11 +1,15 @@
 import { takeEvery, put } from 'redux-saga/effects';
-import { fetchWeatherData, fetchWeatherDataFailure, fetchWeatherDataRequest, fetchWeatherDataSuccess } from '../weather/weatherDataSlice';
+import { fetchWeatherData as fetchWeatherDataThunk } from '../weather/weatherThunk';
+import axios from 'axios';
+import { fetchWeatherDataFailure, fetchWeatherDataSuccess } from '../weather/weatherDataSlice';
+import { fetchWeatherData } from '../weather/weatherThunk';
 
-function* fetchWeatherDataSaga(action) {
+function* fetchWeatherDataSaga() {
   try {
-    yield put(fetchWeatherDataRequest());
-    const { data } = yield action.payload;
-    yield put(fetchWeatherDataSuccess(data));
+    const { payload } = yield takeEvery(fetchWeatherDataThunk.type, fetchWeatherDataThunk);
+    const response = yield fetchWeatherData();
+    console.log("saga")
+    yield put(fetchWeatherDataSuccess(response.data));
   } catch (error) {
     yield put(fetchWeatherDataFailure(error.message));
   }

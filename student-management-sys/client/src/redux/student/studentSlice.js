@@ -39,7 +39,7 @@ export const createStudent = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       };
-      const response = await axios.post('/createStudent', formData, config); // Adjust the endpoint as per your API
+      const response = await axios.post('/createStudent', formData, config); 
       return response.data.student;
     } catch (error) {
       return rejectWithValue(error.response.data);
