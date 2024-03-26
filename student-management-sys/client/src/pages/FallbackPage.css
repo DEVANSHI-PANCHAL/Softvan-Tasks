@@ -1,0 +1,26 @@
+.page_404 {
+    padding: 40px 0;
+    font-family: 'Arvo', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .four_zero_four_bg {
+    background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+    height: 300px;
+    width: auto;
+    background-position: center;
+    background-size: cover;
+    margin: 0 20px;
+  }
+  
+  .text-container {
+    text-align: center;
+  }
+  
+  .four_zero_four_bg h1,
+  .four_zero_four_bg h3 {
+    color: darkblue;
+    margin: 10px 0;
+  }

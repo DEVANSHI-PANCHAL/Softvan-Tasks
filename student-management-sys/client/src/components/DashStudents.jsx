@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Table } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteStudent, getStudentImage, getStudents } from "../service/student.api";
+import { deleteStudentApi, getStudentImageApi, getStudentsApi } from "../service/student.api";
 // import { updateToken } from '../redux/token/tokenSlice';
 
 
@@ -34,10 +34,10 @@ const DashStudents = () => {
   const fetchStudents = async(dispatch) => {
     console.log("dispatch",dispatch)
     try {
-      const response = await getStudents(dispatch);
+      const response = await getStudentsApi(dispatch);
       const studentsWithImages = await Promise.all(
         response.student.map(async (student) => {
-          const imageResponse = await getStudentImage(student.fileName)
+          const imageResponse = await getStudentImageApi(student.fileName)
           if (imageResponse instanceof Blob) {
             const base64Image = await convertImageToBase64(imageResponse);
             return { ...student, base64Image };
@@ -82,7 +82,7 @@ const DashStudents = () => {
   const handleDeleteStudent = async(id) => {
     console.log("del", id)
     try {
-      const res = await deleteStudent(id);
+      const res = await deleteStudentApi(id);
       console.log("res", res)
       if (res.message) {
         fetchStudents();
@@ -175,7 +175,7 @@ export default DashStudents;
 // import { useDispatch, useSelector } from 'react-redux';
 // import InfiniteScroll from 'react-infinite-scroll-component';
 // import LoaderRows from './LoaderRows';
-// import { deleteStudent, getStudentImage, getStudents } from '../service/student.api';
+// import { deleteStudentApi, getStudentImageApi, getStudentsApi } from '../service/student.api';
 
 // const DashStudents = () => {
 //   const { currentUser } = useSelector((state) => state.user);
@@ -205,13 +205,13 @@ export default DashStudents;
 
 //   const fetchMoreStudents = useCallback(async () => {
 //     try {
-//       const response = await getStudents(dispatch, pageRef.current + 1);
+//       const response = await getStudentsApi(dispatch, pageRef.current + 1);
 //       if (response.student.length === 0) {
 //         setState((prevState) => ({ ...prevState, hasMore: false }));
 //       } else {
 //         const studentsWithImages = await Promise.all(
 //           response.student.map(async (student) => {
-//             const imageResponse = await getStudentImage(student.fileName);
+//             const imageResponse = await getStudentImageApi(student.fileName);
 //             const base64Image = imageResponse instanceof Blob ? await convertImageToBase64(imageResponse) : null;
 //             return { ...student, base64Image };
 //           })
@@ -242,7 +242,7 @@ export default DashStudents;
 
 //   const handleDeleteStudent = useCallback(async (id) => {
 //     try {
-//       const res = await deleteStudent(id);
+//       const res = await deleteStudentApi(id);
 //       if (res.message) {
 //         fetchMoreStudents();
 //       } else {

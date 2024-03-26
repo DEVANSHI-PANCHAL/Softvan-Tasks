@@ -11,7 +11,7 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { createStudent, updateStudent } from "../service/student.api";
+import { createStudentApi, updateStudentApi } from "../service/student.api";
 import WithToast from "./WithToast";
 
 const StudentModal = ({
@@ -81,11 +81,11 @@ const StudentModal = ({
       let res = null;
       if (isEditing) {
         const studentId = editingStudent.id;
-        res = await updateStudent(studentId, formData);
+        res = await updateStudentApi(studentId, formData);
       } else {
         console.log("in create");
         console.log("form data in create", formData);
-        res = await createStudent(formData);
+        res = await createStudentApi(formData);
       }
       console.log("ressss",res)
       resetForm();

@@ -7,7 +7,15 @@ const initialState = {
   loading: false,
   error: null,
 };
+// Action creator for fetch students failure
+export const fetchStudentsFailure = (errorMessage) => ({
+  type: 'students/fetchStudentsFailure',
+  payload: errorMessage,
+});
 
+export const fetchStudentsSuccess = () => {
+  
+}
 // Define async thunk for fetching students
 export const fetchStudents = createAsyncThunk(
   'students/fetchStudents',

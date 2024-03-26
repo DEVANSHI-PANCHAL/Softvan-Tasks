@@ -6,9 +6,8 @@ import { getStudentsApi } from '../../service/student.api';
 // Fetch students saga
 function* fetchStudentsSaga() {
   try {
-    // const { data } = yield call(() => axios.get('/api/students'));
-    const { data } = yield call(getStudentsApi());
-    yield put(fetchStudentsSuccess(data));
+    const { data } = yield call(getStudentsApi);
+    yield put(fetchStudentsSuccess(data.students));
   } catch (error) {
     yield put(fetchStudentsFailure(error.message));
   }
