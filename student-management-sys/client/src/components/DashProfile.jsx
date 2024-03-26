@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'flowbite-react';
 import { selectUser } from '../redux/user/userSlice';
 import { fetchWeatherData } from '../redux/weather/weatherThunk';
+import { useGetPokemonByNameQuery } from '../service/pokemonApi';
 
 const DashProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const currentUser = user.payload.data.user.username;
   const location = import.meta.env.VITE_APP_LOCATION;
+  const { data, pokeError, isLoading } = useGetPokemonByNameQuery('bulbasaur');
+  console.log("DATA", data)
 
   useEffect(() => {
     // Dispatch the fetchWeatherData action to trigger the saga
@@ -42,6 +45,38 @@ const DashProfile = () => {
           </>
         )}
       </Card>
+      <>
+             <p className="mb-2">Name: {data.name}</p>
+            <p className="mb-2">Height: {data.height}</p>
+            <p className="mb-2">Weight: {data.weight}</p> 
+            <p className="mb-2">
+              Types:{' '}
+              {data.types.map((type, index) => (
+                <span key={index}>
+                  {type.type?.name}
+                  {index < data.types.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+            </p>
+            <p className="mb-2">
+              Abilities:{' '}
+              {data.abilities.map((ability, index) => (
+                <span key={index}>
+                  {ability.ability.name}
+                  {index < data.abilities.length - 1 ? ', ' : ''}
+</span>
+              ))}
+            </p>
+            <p className="mb-2">
+              Moves:{' '}
+              {data.moves.map((move, index) => (
+                <span key={index}>
+                  {move.move.name}
+                  {index < data.moves.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+            </p>
+          </>
     </div>
   );
 };

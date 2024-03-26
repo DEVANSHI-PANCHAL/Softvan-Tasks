@@ -5,12 +5,15 @@ import { logger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/rootSaga';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { pokemonApi } from '../service/pokemonApi';
+
 
 import userSlice from "./user/userSlice";
 import themeReducer from './theme/themeSlice';
 import studentReducer from './student/studentSlice';
 import weatherDataReducer from "./weather/weatherDataSlice";
 import thunk from "redux-thunk";
+import { jsonServerApi } from "../service/jsonServerApi";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,6 +22,8 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   student: studentReducer,
   weatherData: weatherDataReducer,
+  [jsonServerApi.reducerPath]: jsonServerApi.reducer,
+  [pokemonApi.reducerPath]: pokemonApi.reducer,
 });
 
 const persistConfig = {
@@ -36,6 +41,8 @@ const middleware = [
   thunk,
   logger,
   sagaMiddleware,
+  jsonServerApi.middleware,
+  pokemonApi.middleware
 ];
 
 const store = configureStore({
